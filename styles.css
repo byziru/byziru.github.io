@@ -1,0 +1,529 @@
+/* ========================================== GLOBAL SETTINGS & CSS VARIABLES ========================================== */
+:root {
+  --red: #e00d18;
+  --ink: #101010;
+  --paper: #f4f1ea;
+  --line: rgba(16, 16, 16, 0.2);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: Inter, Arial, sans-serif;
+  letter-spacing: 0.015em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ========================================== SITE HEADER (NAVIGATION) ========================================== */
+.site-header {
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  width: 100%;
+  height: 96px;
+  padding: 0 4vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #555;
+}
+
+.logo {
+  font: 900 2.4rem/1 Outfit, sans-serif;
+  letter-spacing: -0.03em;
+}
+
+.logo b {
+  margin-left: 0.35rem;
+  color: var(--red);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+}
+
+nav {
+  display: flex;
+  gap: 1.25rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  align-items: center;
+}
+
+nav a {
+  display: inline-block;
+  padding: 0.55rem 1.4rem;
+  border: 1px solid var(--red);
+  border-radius: 50px;
+  background: rgba(16, 16, 16, 0.85);
+  box-shadow: 0 0 10px rgba(224, 13, 24, 0.4);
+  transition: all 0.3s ease;
+}
+
+nav a:hover {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.header-contact {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.site-header a:hover {
+  color: var(--red);
+}
+
+/* ========================================== HERO SECTION ========================================== */
+.hero {
+  min-height: 100vh;
+  padding: clamp(9rem, 18vw, 13rem) 4vw 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: linear-gradient(120deg, transparent 48%, rgba(224, 13, 24, 0.08)), var(--ink);
+}
+
+.eyebrow,
+.section-label {
+  margin: 0;
+  color: var(--red);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.hero h1,
+.contact h2 {
+  margin: 1rem 0;
+  font: 800 clamp(3.7rem, 9.5vw, 10rem)/0.83 Outfit, sans-serif;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+.hero em,
+h2 em {
+  font-style: normal;
+  color: var(--red);
+}
+
+.hero-bottom {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.hero-bottom p {
+  max-width: 310px;
+  line-height: 1.55;
+  font-size: 0.92rem;
+}
+
+.round-link {
+  display: grid;
+  place-items: center;
+  height: 78px;
+  width: 78px;
+  background: var(--red);
+  border-radius: 50%;
+  font-size: 2rem;
+}
+
+/* Utility Class for Light Background Sections */
+.light {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+/* ========================================== INTRO SECTION (01) ========================================== */
+.intro,
+.services {
+  padding: 9rem 4vw;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+}
+
+.intro h2,
+.services h2,
+.work-head h2 {
+  font: 700 clamp(2.8rem, 6vw, 6.5rem)/0.88 Outfit, sans-serif;
+  letter-spacing: -0.02em;
+  margin: 0 0 2.5rem;
+  text-transform: uppercase;
+}
+
+.intro div > p {
+  max-width: 620px;
+  font: 500 clamp(1.25rem, 2vw, 2rem)/1.25 Outfit, sans-serif;
+  letter-spacing: 0.01em;
+}
+
+/* ========================================== SELECTED WORK / GALLERY SECTION (02) ========================================== */
+.work {
+  padding: 9rem 4vw;
+}
+
+.work-head {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: end;
+  margin-bottom: 5rem;
+}
+
+.work-head h2 {
+  margin: 0;
+}
+
+.work-head > p:last-child {
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+/* Cards Grid */
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.category-card {
+  position: relative;
+  min-height: 520px;
+  overflow: hidden;
+  border: 0;
+  padding: 1.25rem;
+  color: var(--paper);
+  background: #282828;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.category-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.74;
+  transition: transform 0.45s, opacity 0.45s;
+}
+
+.category-card:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.78));
+}
+
+.category-card:hover img {
+  transform: scale(1.06);
+  opacity: 0.92;
+}
+
+.category-card span,
+.category-card strong,
+.category-card i {
+  position: relative;
+  z-index: 1;
+  display: block;
+}
+
+.category-card span {
+  font-size: 0.61rem;
+  letter-spacing: 0.15em;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--red);
+}
+
+.category-card strong {
+  position: absolute;
+  left: 1.25rem;
+  bottom: 3rem;
+  font: 700 clamp(2.5rem, 4.4vw, 4.7rem)/0.82 Outfit, sans-serif;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.category-card i {
+  position: absolute;
+  bottom: 1.25rem;
+  font-size: 0.72rem;
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.social-link {
+  display: inline-block;
+  margin-top: 2rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--paper);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ========================================== SERVICES SECTION (03) ========================================== */
+.services ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid var(--line);
+}
+
+.services li {
+  padding: 1.05rem 0;
+  border-bottom: 1px solid var(--line);
+  font: 600 clamp(1rem, 1.6vw, 1.45rem)/1 Outfit, sans-serif;
+}
+
+.services li span {
+  display: inline-block;
+  width: 3.5rem;
+  color: var(--red);
+  font: 700 0.65rem Inter, Arial, sans-serif;
+}
+
+/* ========================================== CONTACT SECTION ========================================== */
+.contact {
+  padding: 10rem 4vw;
+  background: var(--red);
+  color: var(--ink);
+}
+
+.contact .eyebrow {
+  color: var(--ink);
+}
+
+.contact h2 {
+  margin: 1rem 0 3rem;
+}
+
+.contact h2 em {
+  color: var(--paper);
+}
+
+.contact-email {
+  display: table;
+  font: 600 clamp(1.1rem, 2.2vw, 2rem)/1 Outfit, sans-serif;
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 0.45rem;
+}
+
+.contact-phone {
+  display: table;
+  margin-top: 1.15rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ========================================== FOOTER ========================================== */
+footer {
+  padding: 1.4rem 4vw;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.65rem;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* ========================================== GALLERY MODAL & LIGHTBOX ========================================== */
+.gallery-modal {
+  width: min(1200px, 94vw);
+  height: min(860px, 92vh);
+  padding: clamp(1.5rem, 4vw, 4rem);
+  border: 0;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.gallery-modal::backdrop {
+  background: rgba(6, 6, 6, 0.58);
+  backdrop-filter: blur(13px);
+}
+
+.modal-top {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.modal-top h2 {
+  margin: 0.5rem 0 0;
+  font: 800 clamp(2.5rem, 5vw, 5rem)/0.85 Outfit, sans-serif;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.close-modal {
+  border: 1px solid var(--ink);
+  background: transparent;
+  padding: 0.7rem 1rem;
+  font: 700 0.72rem Inter, Arial, sans-serif;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.media-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.media-grid figure {
+  margin: 0;
+  aspect-ratio: 1;
+  background: #ddd;
+  overflow: hidden;
+  cursor: zoom-in;
+}
+
+.media-grid img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s;
+}
+
+.media-grid img:hover {
+  transform: scale(1.04);
+}
+
+.lightbox {
+  width: min(1100px, 94vw);
+  height: min(880px, 92vh);
+  padding: 0;
+  border: 0;
+  background: #090909;
+  color: var(--paper);
+}
+
+.lightbox::backdrop {
+  background: rgba(6, 6, 6, 0.78);
+  backdrop-filter: blur(16px);
+}
+
+.close-lightbox {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  z-index: 2;
+  border: 1px solid var(--paper);
+  background: rgba(0, 0, 0, 0.55);
+  color: var(--paper);
+  padding: 0.65rem 0.9rem;
+  font: 700 0.7rem Inter, Arial, sans-serif;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.lightbox #lightbox-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.lightbox img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border: 0;
+}
+
+.lightbox iframe {
+  width: 100%;
+  max-width: 380px;
+  height: auto;
+  max-height: 80vh;
+  aspect-ratio: 9 / 19.5;
+  background: #fff;
+  border: 0;
+  border-radius: 8px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* ========================================== RESPONSIVE STYLES (MEDIA QUERIES) ========================================== */
+@media (max-width: 700px) {
+  .site-header {
+    height: 64px;
+  }
+  .header-contact {
+    display: none;
+  }
+  .logo {
+    font-size: 1.8rem;
+  }
+  nav {
+    gap: 0.5rem;
+    font-size: 0.65rem;
+  }
+  nav a {
+    padding: 0.35rem 0.8rem;
+    box-shadow: 0 0 6px rgba(224, 13, 24, 0.4);
+  }
+  .intro,
+  .services,
+  .work-head {
+    grid-template-columns: 1fr;
+  }
+  .intro,
+  .services,
+  .work,
+  .contact {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
+  .work-head {
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  .category-grid {
+    grid-template-columns: 1fr;
+  }
+  .category-card {
+    min-height: 400px;
+  }
+  .hero {
+    min-height: 720px;
+  }
+  .hero-bottom {
+    align-items: center;
+  }
+  .round-link {
+    height: 58px;
+    width: 58px;
+    flex: none;
+  }
+  footer {
+    flex-direction: column;
+  }
+  .media-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
