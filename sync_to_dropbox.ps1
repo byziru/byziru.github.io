@@ -373,19 +373,19 @@ Set-Content -Path $OutputDataFile -Value "var portfolioData = $json;" -Encoding 
 
 Write-Host "Success! Gallery data written to $OutputDataFile"
 
-# Automatic Git push to GitHub
-Write-Host "Syncing changes to GitHub..."
-try {
-    $gitStatus = git status --porcelain
-    if ($null -ne $gitStatus -and $gitStatus.Trim() -ne "") {
-        Write-Host "  Changes detected. Committing and pushing to GitHub..."
-        git add .
-        git commit -m "Auto-sync portfolio content and code changes"
-        git push origin main
-        Write-Host "  Successfully pushed to GitHub!"
-    } else {
-        Write-Host "  No changes to push to GitHub."
-    }
-} catch {
-    Write-Warning "  Failed to automatically push to GitHub: $_"
-}
+# # Automatic Git push to GitHub (Commented out - uncomment to automate)
+# Write-Host "Syncing changes to GitHub..."
+# try {
+#     $gitStatus = git status --porcelain
+#     if ($null -ne $gitStatus -and $gitStatus.Trim() -ne "") {
+#         Write-Host "  Changes detected. Committing and pushing to GitHub..."
+#         git add .
+#         git commit -m "Auto-sync portfolio content and code changes"
+#         git push origin main
+#         Write-Host "  Successfully pushed to GitHub!"
+#     } else {
+#         Write-Host "  No changes to push to GitHub."
+#     }
+# } catch {
+#     Write-Warning "  Failed to automatically push to GitHub: $_"
+# }
