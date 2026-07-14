@@ -1,0 +1,5 @@
+ffmpeg.exe
+dropbox_sync_cache.json
+*.log
+Files/
+assets/
