@@ -1,66 +1,7 @@
-// ========================================== GALLERY DATA & IMAGES ==========================================
-const galleries = {
-  // UGC Talent
-  ugc: [
-    'Files/Talent/Heypresso Coffee Machine Ad.mp4',
-    'Files/Talent/Father_s Day Heypresso Coffee Machine.mov',
-    'Files/Talent/Ramadhan Nutriblend Ad.MOV',
-    'Files/Talent/Vitamin C Filled Morning with Yuzu.mov',
-    'Files/Talent/04.Marketing Suruh buat 1000 content.mov',
-    'Files/Talent/make mocktail with me.mov',
-    'Files/Talent/Perut Tak Selesa film.mp4',
-    'Files/Talent/Jaya Grocer.mov'
-  ],
-  // Moving Stories / Videos
-  videos: [
-    'Files/Videos/w.mp4',
-    'Files/Videos/Heypresso Coffee Machine Ad.mov',
-    'Files/Videos/Comedy Ad for Blender.mov',
-    'Files/Videos/Cucumber Lemonade.mov',
-    'Files/Videos/Heypresso Conversion Video.mov',
-    'Files/Videos/How does Heypresso Work.mov',
-    'Files/Videos/HiJug Max Dropshipping.mov',
-    'Files/Videos/Blue Spirulina Smoothie.mov',
-    'Files/Videos/blue spirulina AI.mov',
-    'Files/Videos/GreenWeightLoss.mov',
-    'Files/Videos/03.Interview Pt2.mov',
-    'Files/Videos/04.Tastetest.mov',
-    'Files/Videos/03.Interview Pt1 (1).mov',
-    'Files/Videos/10.PCV PA (not post on TikTok.mov',
-    'Files/Videos/Vitamin C Filled Morning with Yuzu.mov',
-    'Files/Videos/03.Interview Pt1.mov',
-    'Files/Videos/02.BaristaMaking.mov',
-    'Files/Videos/04.Marketing Suruh buat 1000 content.mov',
-    'Files/Videos/DOOH Visual Maluri(Surya Malaysia).mp4',
-    'Files/Videos/Third Mile Rush teaser.mov',
-    'Files/Videos/HOH Overview.mov',
-    'Files/Videos/make mocktail with me.mov',
-    'Files/Videos/Perut Tak Selesa film.mp4',
-    'Files/Videos/Jaya Grocer.mov',
-    'Files/Videos/0529.mp4',
-    'Files/Videos/clean making pomegranate.mov',
-    'Files/Videos/Maggi Goreng Food Hook .mov',
-    'Files/Videos/Maggi Goreng Food Hook.mov',
-    'Files/Videos/Draft POV Promoter.mov',
-    'Files/Videos/Digestion Problem UGC.mov',
-    'Files/Videos/AGC Nibbs 1.mov'
-  ],
-  // Static Posts / Still Loud
-  static: [
-    'Files/Static Posts/How to use ACV.png',
-    'Files/Static Posts/TMRF.png',
-    'Files/Static Posts/ramadhan.png',
-    'Files/Static Posts/Hari Raya Aidiladha.png',
-    'Files/Static Posts/Flavours.png',
-    'Files/Static Posts/Halal.png',
-    'Files/Static Posts/FIFA with Dad Hook 2.png',
-    'Files/Static Posts/Roti Canai.png',
-    'Files/Static Posts/Template.png',
-    'Files/Static Posts/77.png',
-    'Files/Static Posts/Terima Kaish NU Sentral.png',
-    'Files/Static Posts/Sunway Multicare.png'
-  ]
-};
+// ========================================== API CONFIGURATION ==========================================
+const API_URL = "https://script.google.com/macros/s/AKfycbzHtufV6mmdda-225P6WCxa_TYap2R1rF-avwlSAFLMZ0BOqRQ1e-uTqe54TYF4oPSbSg/exec";
+
+let galleries = { ugc: [], videos: [], static: [] };
 
 // ========================================== DOM ELEMENTS ==========================================
 // Gallery Modal Elements
@@ -72,81 +13,75 @@ const title = document.querySelector('#gallery-title');
 const lightbox = document.querySelector('.lightbox');
 const lightboxContent = document.querySelector('#lightbox-content');
 
-// Helper to determine if a file is a video
-const isVideo = (src) => /\.(mp4|mov)$/i.test(src);
-
 // ========================================== LIGHTBOX FUNCTIONS ==========================================
 // Open Lightbox for media
-function openLightbox(src) {
-  if (isVideo(src)) {
-    lightboxContent.innerHTML = `<video src="${src}" controls autoplay playsinline></video>`;
+function openLightbox(fileId, isVideo, isPortrait = false) {
+  if (isVideo) {
+    const klass = isPortrait ? 'class="portrait-iframe"' : '';
+    // Show Google Drive's built-in preview player in a responsive iframe
+    lightboxContent.innerHTML = `<iframe src="https://drive.google.com/file/d/${fileId}/preview" ${klass} width="100%" height="100%" allow="autoplay" frameborder="0"></iframe>`;
   } else {
-    lightboxContent.innerHTML = `<img src="${src}" alt="Enlarged BY ZIRU work">`;
+    lightboxContent.innerHTML = `<img src="https://lh3.googleusercontent.com/d/${fileId}" alt="Enlarged BY ZIRU work">`;
   }
   lightbox.showModal();
 }
 
-// ========================================== INTERACTION EVENT LISTENERS ==========================================
-
-// Set main card covers and handle category clicks to generate gallery grid
-document.querySelectorAll('[data-gallery]').forEach(card => {
-  const key = card.dataset.gallery;
-  const coverSrc = galleries[key][0];
-  
-  // Create video or img tag for the card cover
-  const oldMedia = card.querySelector('img, video');
-  if (oldMedia) {
-    if (isVideo(coverSrc)) {
-      if (oldMedia.tagName.toLowerCase() !== 'video') {
-        const vid = document.createElement('video');
-        vid.src = coverSrc;
-        vid.muted = true;
-        vid.loop = true;
-        vid.autoplay = true;
-        vid.playsInline = true;
-        if (oldMedia.className) vid.className = oldMedia.className;
-        vid.setAttribute('alt', oldMedia.getAttribute('alt') || '');
-        card.replaceChild(vid, oldMedia);
-      } else {
-        oldMedia.src = coverSrc;
-      }
-    } else {
-      if (oldMedia.tagName.toLowerCase() !== 'img') {
-        const img = document.createElement('img');
-        img.src = coverSrc;
-        if (oldMedia.className) img.className = oldMedia.className;
-        img.setAttribute('alt', oldMedia.getAttribute('alt') || '');
-        card.replaceChild(img, oldMedia);
-      } else {
-        oldMedia.src = coverSrc;
-      }
-    }
-  }
-
-  card.addEventListener('click', () => {
-    title.textContent = card.querySelector('strong').textContent.replace(/\n/g, ' ');
+// ========================================== INITIALIZE SYSTEM ==========================================
+function initializePortfolio() {
+  // Set main card covers and handle category clicks to generate gallery grid
+  document.querySelectorAll('[data-gallery]').forEach(card => {
+    const key = card.dataset.gallery;
+    const items = galleries[key];
+    if (!items || items.length === 0) return;
     
-    // Generate grid markup dynamically
-    grid.innerHTML = galleries[key].map((src, i) => {
-      const mediaHtml = isVideo(src) 
-        ? `<video src="${src}#t=0.001" muted playsinline preload="metadata"></video>`
-        : `<img src="${src}" alt="${title.textContent} work ${i + 1}" loading="lazy">`;
-      return `
-      <figure data-src="${src}">
-        ${mediaHtml}
-      </figure>
-      `;
-    }).join('');
-    
-    // Add click triggers on newly created figures to open lightbox
-    grid.querySelectorAll('figure').forEach(item => {
-      item.addEventListener('click', () => openLightbox(item.dataset.src));
+    // (The card covers are written directly in HTML so they loop/autoplay natively)
+
+    card.addEventListener('click', () => {
+      title.textContent = card.querySelector('strong').textContent.replace(/\n/g, ' ');
+      
+      // Generate grid markup dynamically (videos use fast image thumbnails + play icons)
+      grid.innerHTML = items.map((file, i) => {
+        const mediaHtml = file.isVideo 
+          ? `<div class="media-container video-item"><img src="https://drive.google.com/thumbnail?id=${file.id}" alt="${title.textContent} work ${i + 1}" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/600x600/101010/e00d18?text=Play+Video';"></div>`
+          : `<img src="https://lh3.googleusercontent.com/d/${file.id}" alt="${title.textContent} work ${i + 1}" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/600x600/101010/e00d18?text=Image';">`;
+        return `
+        <figure data-id="${file.id}" data-video="${file.isVideo}">
+          ${mediaHtml}
+        </figure>
+        `;
+      }).join('');
+      
+      // Add click triggers on newly created figures to open lightbox
+      grid.querySelectorAll('figure').forEach((item, index) => {
+        item.addEventListener('click', () => {
+          const id = item.dataset.id;
+          const isVid = item.dataset.video === 'true';
+          const file = items[index];
+          const name = file ? file.name.toLowerCase() : '';
+          // Detect landscape videos vs portrait videos
+          const isLandscape = name.includes('dooh') || name.includes('hoh') || name.includes('teaser') || name.includes('0529') || name.includes('interview');
+          const isPortraitVideo = isVid && (key === 'ugc' || !isLandscape);
+          openLightbox(id, isVid, isPortraitVideo);
+        });
+      });
+      
+      modal.showModal();
     });
-    
-    modal.showModal();
   });
-});
+}
 
+// ========================================== FETCH LIVE MEDIA DATA ==========================================
+fetch(API_URL)
+  .then(res => res.json())
+  .then(data => {
+    galleries = data;
+    initializePortfolio();
+  })
+  .catch(err => {
+    console.error("Failed to load portfolio media from Google Drive:", err);
+  });
+
+// ========================================== MODAL CLOSE EVENT HANDLERS ==========================================
 // Close Gallery Modal handlers
 document.querySelector('.close-modal').addEventListener('click', () => modal.close());
 
@@ -155,7 +90,7 @@ modal.addEventListener('click', event => {
 });
 
 modal.addEventListener('close', () => {
-  grid.innerHTML = ''; // Clear the grid to free up massive memory from video tags
+  grid.innerHTML = ''; // Clear the grid to free up memory
 });
 
 // Close Lightbox Modal handlers
