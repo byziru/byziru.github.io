@@ -1,5 +1,5 @@
 // ========================================== API CONFIGURATION ==========================================
-const API_URL = "https://script.google.com/macros/s/AKfycbzHtufV6mmdda-225P6WCxa_TYap2R1rF-avwlSAFLMZ0BOqRQ1e-uTqe54TYF4oPSbSg/exec";
+const API_URL = "media_data.js";
 
 let galleries = { ugc: [], videos: [], static: [] };
 
@@ -13,15 +13,18 @@ const title = document.querySelector('#gallery-title');
 const lightbox = document.querySelector('.lightbox');
 const lightboxContent = document.querySelector('#lightbox-content');
 
+// Helper to determine if a file is a video
+const isVideo = (src) => /\.(mp4|mov)$/i.test(src);
+
 // ========================================== LIGHTBOX FUNCTIONS ==========================================
 // Open Lightbox for media
-function openLightbox(fileId, isVideo, isPortrait = false) {
+function openLightbox(src, isVideo, isPortrait = false) {
   if (isVideo) {
-    const klass = isPortrait ? 'class="portrait-iframe"' : '';
-    // Show Google Drive's built-in preview player in a responsive iframe
-    lightboxContent.innerHTML = `<iframe src="https://drive.google.com/file/d/${fileId}/preview" ${klass} width="100%" height="100%" allow="autoplay" frameborder="0"></iframe>`;
+    const klass = isPortrait ? 'class="portrait-video"' : '';
+    // Show standard video player for direct Dropbox media link
+    lightboxContent.innerHTML = `<video src="${src}" ${klass} controls autoplay loop playsinline width="100%" height="100%"></video>`;
   } else {
-    lightboxContent.innerHTML = `<img src="https://lh3.googleusercontent.com/d/${fileId}" alt="Enlarged BY ZIRU work">`;
+    lightboxContent.innerHTML = `<img src="${src}" alt="Enlarged BY ZIRU work">`;
   }
   lightbox.showModal();
 }
@@ -42,10 +45,10 @@ function initializePortfolio() {
       // Generate grid markup dynamically (videos use fast image thumbnails + play icons)
       grid.innerHTML = items.map((file, i) => {
         const mediaHtml = file.isVideo 
-          ? `<div class="media-container video-item"><img src="https://drive.google.com/thumbnail?id=${file.id}" alt="${title.textContent} work ${i + 1}" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/600x600/101010/e00d18?text=Play+Video';"></div>`
-          : `<img src="https://lh3.googleusercontent.com/d/${file.id}" alt="${title.textContent} work ${i + 1}" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/600x600/101010/e00d18?text=Image';">`;
+          ? `<div class="media-container video-item"><img src="${file.thumbnail}" alt="${title.textContent} work ${i + 1}" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/600x600/101010/e00d18?text=Play+Video';"></div>`
+          : `<img src="${file.src}" alt="${title.textContent} work ${i + 1}" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/600x600/101010/e00d18?text=Image';">`;
         return `
-        <figure data-id="${file.id}" data-video="${file.isVideo}">
+        <figure data-src="${file.src}" data-video="${file.isVideo}">
           ${mediaHtml}
         </figure>
         `;
@@ -54,14 +57,14 @@ function initializePortfolio() {
       // Add click triggers on newly created figures to open lightbox
       grid.querySelectorAll('figure').forEach((item, index) => {
         item.addEventListener('click', () => {
-          const id = item.dataset.id;
+          const src = item.dataset.src;
           const isVid = item.dataset.video === 'true';
           const file = items[index];
           const name = file ? file.name.toLowerCase() : '';
           // Detect landscape videos vs portrait videos
           const isLandscape = name.includes('dooh') || name.includes('hoh') || name.includes('teaser') || name.includes('0529') || name.includes('interview');
           const isPortraitVideo = isVid && (key === 'ugc' || !isLandscape);
-          openLightbox(id, isVid, isPortraitVideo);
+          openLightbox(src, isVid, isPortraitVideo);
         });
       });
       
@@ -70,16 +73,52 @@ function initializePortfolio() {
   });
 }
 
-// ========================================== FETCH LIVE MEDIA DATA ==========================================
-fetch(API_URL)
-  .then(res => res.json())
-  .then(data => {
-    galleries = data;
-    initializePortfolio();
-  })
-  .catch(err => {
-    console.error("Failed to load portfolio media from Google Drive:", err);
-  });
+// ========================================== LOAD MEDIA DATA ==========================================
+function loadGalleries() {
+  const data = JSON.parse(JSON.stringify(window.portfolioData || galleries));
+  const pathPrefix = API_URL.includes("../") ? "../" : "";
+  
+  // Normalize paths if they are local relative paths
+  for (const categoryKey in data) {
+    data[categoryKey] = data[categoryKey].map(file => {
+      if (file.src && file.src.startsWith("Files/")) {
+        file.src = pathPrefix + file.src;
+      }
+      if (file.thumbnail && file.thumbnail.startsWith("Files/")) {
+        file.thumbnail = pathPrefix + file.thumbnail;
+      }
+      return file;
+    });
+  }
+
+  galleries = data;
+
+  // Dynamically set category card cover sources from fetched data
+  // UGC Card (Heypresso Coffee Machine Ad.mp4)
+  const ugcVideo = data.ugc.find(f => f.name === "Heypresso Coffee Machine Ad.mp4");
+  if (ugcVideo) {
+    const el = document.querySelector('.category-ugc video');
+    if (el) el.src = ugcVideo.src;
+  }
+  
+  // Videos Card (w.mp4)
+  const videosVideo = data.videos.find(f => f.name === "w.mp4");
+  if (videosVideo) {
+    const el = document.querySelector('.category-card[data-gallery="videos"] video');
+    if (el) el.src = videosVideo.src;
+  }
+  
+  // Static Posts Card (ramadhan.png)
+  const staticImg = data.static.find(f => f.name === "ramadhan.png");
+  if (staticImg) {
+    const el = document.querySelector('.category-card[data-gallery="static"] img');
+    if (el) el.src = staticImg.src;
+  }
+
+  initializePortfolio();
+}
+
+loadGalleries();
 
 // ========================================== MODAL CLOSE EVENT HANDLERS ==========================================
 // Close Gallery Modal handlers

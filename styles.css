@@ -110,7 +110,7 @@ nav a:hover {
   justify-content: space-between;
   background: linear-gradient(180deg, rgba(16, 16, 16, 0.4) 0%, rgba(16, 16, 16, 0.85) 100%), 
               linear-gradient(120deg, transparent 48%, rgba(224, 13, 24, 0.15)), 
-              url('https://lh3.googleusercontent.com/d/1IRTJhd8o_WAyHnoWmqavqcEb8YHitRqu');
+              url('Files/Images/20260505_210655~2.jpg');
   background-size: cover;
   background-position: center;
 }
@@ -861,7 +861,8 @@ footer {
     height: 51.75vw !important; /* 16:9 landscape aspect ratio */
     max-height: 75vh !important;
   }
-  .lightbox iframe.portrait-iframe {
+  .lightbox iframe.portrait-iframe,
+  .lightbox video.portrait-video {
     width: min(340px, 86vw) !important;
     height: auto !important;
     aspect-ratio: 9 / 16 !important;
