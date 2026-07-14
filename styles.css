@@ -110,7 +110,7 @@ nav a:hover {
   justify-content: space-between;
   background: linear-gradient(180deg, rgba(16, 16, 16, 0.4) 0%, rgba(16, 16, 16, 0.85) 100%), 
               linear-gradient(120deg, transparent 48%, rgba(224, 13, 24, 0.15)), 
-              url('Files/Images/20260505_210655~2.jpg');
+              url('Images/20260505_210655~2.jpg');
   background-size: cover;
   background-position: center;
 }
