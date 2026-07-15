@@ -8,7 +8,7 @@ const { execSync } = require('child_process');
 const ACCESS_TOKEN = process.env.DROPBOX_ACCESS_TOKEN || process.argv[2];
 const WORKSPACE_DIR = __dirname;
 const FILES_DIR = path.join(WORKSPACE_DIR, 'Files');
-const THUMBNAILS_DIR = path.join(FILES_DIR, '.thumbnails');
+const THUMBNAILS_DIR = path.join(FILES_DIR, 'thumbnails');
 const CACHE_FILE = path.join(WORKSPACE_DIR, 'dropbox_sync_cache.json');
 const OUTPUT_DATA_FILE = path.join(WORKSPACE_DIR, 'media_data.js');
 
@@ -40,7 +40,7 @@ function generateLocalData() {
         const thumbnailName = `${path.basename(filename, path.extname(filename))}_thumb.jpg`;
         const localThumbFilePath = path.join(THUMBNAILS_DIR, thumbnailName);
         if (fs.existsSync(localThumbFilePath)) {
-          thumbnailPath = `Files/.thumbnails/${thumbnailName}`;
+          thumbnailPath = `Files/thumbnails/${thumbnailName}`;
         }
       }
       
@@ -307,7 +307,7 @@ async function run() {
       if (catInfo.isVideo) {
         const thumbnailName = `${path.basename(filename, path.extname(filename))}_thumb.jpg`;
         const localThumbPath = path.join(THUMBNAILS_DIR, thumbnailName);
-        const dropboxThumbPath = `/Portfolio/${categoryKey}/.thumbnails/${thumbnailName}`;
+        const dropboxThumbPath = `/Portfolio/${categoryKey}/thumbnails/${thumbnailName}`;
         
         // Extract frame using ffmpeg
         if (!fs.existsSync(localThumbPath) || !(cache[dropboxThumbPath] && cache[dropboxThumbPath].parentHash === hash)) {

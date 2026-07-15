@@ -6,7 +6,7 @@ param (
 $WorkspaceDir = $PSScriptRoot
 if (-not $WorkspaceDir) { $WorkspaceDir = Get-Location }
 $FilesDir = Join-Path $WorkspaceDir "Files"
-$ThumbnailsDir = Join-Path $FilesDir ".thumbnails"
+$ThumbnailsDir = Join-Path $FilesDir "thumbnails"
 $CacheFile = Join-Path $WorkspaceDir "dropbox_sync_cache.json"
 $OutputDataFile = Join-Path $WorkspaceDir "media_data.js"
 $ffmpegPath = Join-Path $WorkspaceDir "ffmpeg.exe"
@@ -62,7 +62,7 @@ function Generate-LocalData {
                 }
                 
                 if (Test-Path $localThumbFile) {
-                    $thumbPath = "Files/.thumbnails/$thumbName"
+                    $thumbPath = "Files/thumbnails/$thumbName"
                 }
             }
             
@@ -301,7 +301,7 @@ foreach ($catKey in $Categories.Keys) {
         if ($catInfo.isVideo) {
             $thumbName = "$([System.IO.Path]::GetFileNameWithoutExtension($file.Name))_thumb.jpg"
             $localThumbPath = Join-Path $ThumbnailsDir $thumbName
-            $dropboxThumbPath = "/Files/$($catInfo.dirName)/.thumbnails/$thumbName"
+            $dropboxThumbPath = "/Files/$($catInfo.dirName)/thumbnails/$thumbName"
             
             # Generate thumbnail if not exist or parent video changed
             $thumbCachePath = $dropboxThumbPath

@@ -41,9 +41,17 @@ function initializePortfolio() {
       
       // Generate grid markup dynamically (videos use fast image thumbnails + play icons)
       grid.innerHTML = items.map((file, i) => {
-        const mediaHtml = file.isVideo 
-          ? `<div class="media-container video-item"><img src="${file.thumbnail}" alt="${title.textContent} work ${i + 1}" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/600x600/101010/e00d18?text=Play+Video';"></div>`
-          : `<img src="${file.src}" alt="${title.textContent} work ${i + 1}" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/600x600/101010/e00d18?text=Image';">`;
+        let mediaHtml;
+        if (file.isVideo) {
+          const isVideoUrl = file.thumbnail && (/\.(mp4|mov)/i.test(file.thumbnail) || file.thumbnail.includes('.mp4?') || file.thumbnail.includes('.mov?'));
+          if (isVideoUrl) {
+            mediaHtml = `<div class="media-container video-item"><video src="${file.thumbnail}#t=0.001" preload="metadata" muted playsinline></video></div>`;
+          } else {
+            mediaHtml = `<div class="media-container video-item"><img src="${file.thumbnail}" alt="${title.textContent} work ${i + 1}" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/600x600/101010/e00d18?text=Play+Video';"></div>`;
+          }
+        } else {
+          mediaHtml = `<img src="${file.src}" alt="${title.textContent} work ${i + 1}" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/600x600/101010/e00d18?text=Image';">`;
+        }
         return `
         <figure data-src="${file.src}" data-video="${file.isVideo}">
           ${mediaHtml}
