@@ -176,9 +176,17 @@ h2 em {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding: clamp(6.5rem, 12vw, 8.5rem) 4vw 3rem;
+  justify-content: center;
+  padding: clamp(4rem, 8vw, 6rem) 4vw 4rem;
   background: linear-gradient(120deg, var(--ink) 85%, rgba(16, 16, 16, 0.7));
+}
+
+.hero-split .hero-content .eyebrow {
+  margin-bottom: 0.35rem;
+}
+
+.hero-split .hero-content h1 {
+  margin: 0 0 2rem 0;
 }
 
 .hero-image-wrapper {
@@ -835,6 +843,9 @@ footer {
     padding: 5.5rem 4vw 2.5rem;
     justify-content: flex-start;
     gap: 1.25rem;
+  }
+  .hero-split .hero-content .eyebrow {
+    margin-bottom: 0;
   }
   .hero-split .hero-content h1 {
     margin: 0.25rem 0 0.75rem;
