@@ -163,7 +163,8 @@ h2 em {
 }
 
 .hero-split .round-link {
-  transform: translateY(1.5rem);
+  align-self: flex-end;
+  margin-top: 1.5rem;
 }
 
 /* ========================================== HERO SPLIT VARIANT (index-side-hero.html) ========================================== */
@@ -852,7 +853,8 @@ footer {
     gap: 1.25rem;
   }
   .hero-split .round-link {
-    transform: none;
+    margin-top: 1rem;
+    align-self: flex-end;
   }
   .hero-header-group {
     gap: 1.25rem;
