@@ -181,12 +181,15 @@ h2 em {
   background: linear-gradient(120deg, var(--ink) 85%, rgba(16, 16, 16, 0.7));
 }
 
-.hero-split .hero-content .eyebrow {
-  margin-bottom: 0.35rem;
+.hero-header-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
 }
 
-.hero-split .hero-content h1 {
-  margin: 0 0 2rem 0;
+.hero-header-group h1 {
+  margin: 0;
 }
 
 .hero-image-wrapper {
@@ -844,11 +847,12 @@ footer {
     justify-content: flex-start;
     gap: 1.25rem;
   }
-  .hero-split .hero-content .eyebrow {
+  .hero-header-group {
+    gap: 0.35rem;
     margin-bottom: 0;
   }
-  .hero-split .hero-content h1 {
-    margin: 0.25rem 0 0.75rem;
+  .hero-header-group h1 {
+    margin: 0;
   }
 
   /* Full-Screen Gallery Modal on Mobile (native app feel) */
