@@ -162,6 +162,10 @@ h2 em {
   font-size: 2rem;
 }
 
+.hero-split .round-link {
+  transform: translateY(1.5rem);
+}
+
 /* ========================================== HERO SPLIT VARIANT (index-side-hero.html) ========================================== */
 .hero-split {
   flex-direction: row;
@@ -846,6 +850,9 @@ footer {
     padding: 5.5rem 4vw 2.5rem;
     justify-content: flex-start;
     gap: 1.25rem;
+  }
+  .hero-split .round-link {
+    transform: none;
   }
   .hero-header-group {
     gap: 1.25rem;
