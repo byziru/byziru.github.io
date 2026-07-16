@@ -184,7 +184,7 @@ h2 em {
 .hero-header-group {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 2rem;
   margin-bottom: 2rem;
 }
 
@@ -848,7 +848,7 @@ footer {
     gap: 1.25rem;
   }
   .hero-header-group {
-    gap: 0.35rem;
+    gap: 1.25rem;
     margin-bottom: 0;
   }
   .hero-header-group h1 {
