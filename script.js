@@ -150,3 +150,37 @@ lightbox.addEventListener('click', event => {
 lightbox.addEventListener('close', () => {
   lightboxContent.innerHTML = ''; // Clear media when closing lightbox to stop playback
 });
+
+// ========================================== DROPDOWN MENU INTERACTION ==========================================
+// Handle dropdown items with data-gallery to trigger gallery modal
+document.querySelectorAll('.dropdown-item[data-gallery]').forEach(item => {
+  item.addEventListener('click', (e) => {
+    const key = item.dataset.gallery;
+    const targetCard = document.querySelector(`.category-card[data-gallery="${key}"]`);
+    if (targetCard) {
+      setTimeout(() => targetCard.click(), 200);
+    }
+  });
+});
+
+// Mobile dropdown toggle support
+document.querySelectorAll('.has-dropdown > .nav-link').forEach(link => {
+  link.addEventListener('click', (e) => {
+    if (window.innerWidth <= 850) {
+      const parent = link.parentElement;
+      const isOpen = parent.classList.contains('active');
+      document.querySelectorAll('.has-dropdown').forEach(item => item.classList.remove('active'));
+      if (!isOpen) {
+        e.preventDefault();
+        parent.classList.add('active');
+      }
+    }
+  });
+});
+
+// Close dropdowns when clicking outside
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.site-nav')) {
+    document.querySelectorAll('.has-dropdown').forEach(item => item.classList.remove('active'));
+  }
+});
